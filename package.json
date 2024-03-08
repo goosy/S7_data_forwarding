@@ -7,10 +7,16 @@
   "scripts": {
     "start": "node ./src/index.js"
   },
+  "bin": {
+    "s7data": "./cli.js"
+  },
   "dependencies": {
     "gooconverter": "^1.0.2",
     "nodes7": "^0.3.18",
     "yaml": "^2.4.1"
+  },
+  "devDependencies": {
+    "mri": "^1.2.0"
   },
   "keywords": [],
   "license": "MIT"
