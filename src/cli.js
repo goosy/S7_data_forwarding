@@ -1,7 +1,7 @@
 import { exec } from 'node:child_process';
 import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from "node:url";
-import pkg from './package.json' assert { type: 'json' };
+import pkg from '../package.json' assert { type: 'json' };
 import mri from 'mri';
 
 const argv = mri(process.argv.slice(2), {
@@ -49,7 +49,7 @@ if (argv.version) {
     show_help();
 } else if (cmd === 'start') {
     exec(
-        `pm2 start --name="s7data-${basename(work_path)}" "${join(module_path, 'src\\index.js')}"`,
+        `pm2 start --name="s7data-${basename(work_path)}" "${join(module_path, 'main.js')}"`,
         { cwd: work_path }
     );
 } else if (cmd === 'stop') {

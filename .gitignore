@@ -1,2 +1,4 @@
 node_modules/
-*-lock.yaml
+/main.js
+/cli.js
+/*-lock.yaml
