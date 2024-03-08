@@ -1,0 +1,9 @@
+{
+  "timestamp": "{{timestamp}}",
+  "values": [
+{{for PV in PVs}}_
+    {"device": "{{PV.device.name}}", "PN": "{{PV.name}}", "PV": {{PV.value}}, "type": "{{PV.type}}"},
+{{endfor // PV}}_
+    {"device": "none", "PN": "count", "PV": {{PVs.length}}, "type": "INT"}
+  ]
+}

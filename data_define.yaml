@@ -1,0 +1,25 @@
+forward:                          # 转发至json接收服务器
+  url: http://127.0.0.1:8080
+  mode: incremental               # complete or incremental
+  period: 1000                    # 转发周期
+
+connections:                      # 源数据连接
+  jx: {host: 192.168.29.41, port: 102, rack: 0, slot: 3}
+
+devices:
+  - comment: 缓冲油罐1
+    name: JXSYZ_HCYG1
+    connection: jx
+    PVs:
+    - comment: 液位
+      name: YW
+      type: REAL
+      address: DB301,R48
+  - comment: 缓冲油罐2
+    name: JXSYZ_HCYG2
+    connection: jx
+    PVs:
+    - comment: 液位
+      name: YW
+      type: REAL
+      address: DB302,R48
