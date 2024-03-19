@@ -27,6 +27,7 @@ subcommand 子命令:
   start                      以当前目录下的配置文件运行数据采集转发，这是默认子命令
   stop                       结束当前目录配置文件所在的数据采集转发
   list                       显示有多少个pm2托管的进程，包括数据采集转发实例
+  log                        显示日志
   flush                      清空log
   help                       打印本帮助
 
@@ -65,6 +66,8 @@ if (argv.version) {
         }
         console.log(stdout);
     });
+} else if (cmd === 'log') {
+    exec(`pm2 log`);
 } else if (cmd === 'flush') {
     exec(`pm2 flush`);
 } else {

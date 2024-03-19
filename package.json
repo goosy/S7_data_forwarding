@@ -1,6 +1,6 @@
 {
   "name": "s7_data_forwarding",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Collect data from S7 PLC and forward it in json format",
   "author": "goosy jo <goosyjo@gmail.com>",
   "type": "module",
