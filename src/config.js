@@ -1,14 +1,12 @@
 import { readFile } from 'node:fs/promises';
 import { parse } from 'yaml';
 
-const tags_dict = {
+class PV_dict extends Map {
     add(PV) {
-        if (tags_dict[PV.tag_name]) throw new Error(`tag ${PV.tag_name} already exists`);
-        tags.push(PV);
-        this[PV.tag_name] = true;
+        if (this.has(PV.tag_name)) throw new Error(`tag ${PV.tag_name} already exists`);
+        this.set(PV.tag_name, PV);
     }
-};
-export const tags = [];
+}
 
 /**
  * Asynchronously fetches and parses a configuration file.
@@ -23,6 +21,8 @@ export async function fetch_config(config_path) {
     const connections = Object.entries(config.connections).map(
         ([name, host]) => ({ name, host, tag_addr_map: {}, devices: [] })
     );
+
+    const tags_dict = new PV_dict();
     const devices = config.devices;
     devices.forEach(device => {
         const conn = connections.find(conn => conn.name === device.connection);
@@ -36,7 +36,8 @@ export async function fetch_config(config_path) {
             conn.tag_addr_map[tag_name] = PV.address;
         })
     })
-    return { forward, connections, devices };
+    const tags = [...tags_dict.values()];
+    return { forward, connections, tags };
 }
 
 export async function fetch_template(template_path) {

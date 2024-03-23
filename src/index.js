@@ -1,7 +1,7 @@
 import { posix } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { S7Connector } from './IO_driver.js';
-import { tags, fetch_config, fetch_template } from './config.js';
+import { fetch_config, fetch_template } from './config.js';
 import { send_json } from './json_forward.js';
 
 let v = true;
@@ -18,11 +18,11 @@ process.stdin.on('data', data => {
     }
 });
 
-const module_path = posix.join(fileURLToPath(import.meta.url).replace(/\\/g, '/'), "../../");
+const module_path = posix.join(fileURLToPath(import.meta.url).replace(/\\/g, '/'), "..");
 const work_path = process.cwd().replace(/\\/g, '/');
 const config_path = posix.join(work_path, "data_define.yaml");
 const template_path = posix.join(work_path, "json.template");
-const { forward, connections, devices } = await fetch_config(config_path);
+const { forward, connections, tags } = await fetch_config(config_path);
 const template = await fetch_template(template_path);
 
 function on_values_ready(conn, values) {
@@ -36,9 +36,9 @@ function on_values_ready(conn, values) {
                 if (PV.value != value) PV.changed = true;
             }
             PV.value = value;
-            const comment = `${device.comment}.${PV.comment}`;
-            const tag = `${device.name}.${PV.name}: ${PV.value}`.padEnd(50, ' ').slice(0, 50);
-            log(`${tag} ${comment}`);
+            // const comment = `${device.comment}.${PV.comment}`;
+            // const tag = `${device.name}.${PV.name}: ${PV.value}`.padEnd(50, ' ').slice(0, 50);
+            // log(`${tag} ${comment}`);
         });
     });
 }

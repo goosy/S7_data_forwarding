@@ -5,4 +5,3 @@ node_modules/
 rollup.config.js
 src/
 test/
-http_server.js

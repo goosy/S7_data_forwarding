@@ -2,13 +2,13 @@ import { convert } from 'gooconverter';
 
 export function send_json(forward, tags, template) {
     const is_incremental = forward.mode === 'incremental';
-    setInterval(() => {
+    tags.forEach(PV => PV.changed = true);
+    function send() {
         const PVs = is_incremental
             ? tags.filter(PV => PV.changed)
             : tags;
         const timestamp = new Date().toISOString();
         const json = convert({ PVs, timestamp }, template);
-        // console.log(json);
         fetch(forward.url, {
             method: 'POST',
             body: json,
@@ -26,5 +26,9 @@ export function send_json(forward, tags, template) {
         }).catch(err => {
             console.log(err);
         });
-    }, forward.period);
+    }
+    setTimeout(
+        () => setInterval(send, forward.period),
+        2000 // send after 2 seconds to ensure the data is valid
+    );
 };

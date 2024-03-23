@@ -1,5 +1,5 @@
 forward:                          # 转发至json接收服务器
-  url: http://127.0.0.1:8080
+  url: http://127.0.0.1:18080
   mode: incremental               # complete or incremental
   period: 1000                    # 转发周期
 

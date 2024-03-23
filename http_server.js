@@ -18,5 +18,5 @@ const onRequest = function (request, response) {
 }
 
 const server = createServer(onRequest);
-server.listen(8080, '127.0.0.1');
-console.log('server started on localhost port 8080');
+server.listen(18080, '0.0.0.0');
+console.log('server started on localhost port 18080');
