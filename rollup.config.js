@@ -23,4 +23,5 @@ export default [{
         resolve({ preferBuiltins: true }),
         json()
     ],
+    external: ['./main.js'],
 }]

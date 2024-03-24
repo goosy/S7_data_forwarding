@@ -1,6 +1,6 @@
 {
   "name": "s7_data_forwarding",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Collect data from S7 PLC and forward it in json format",
   "author": "goosy jo <goosyjo@gmail.com>",
   "type": "module",
@@ -27,6 +27,9 @@
     "nodes7": "^0.3.18",
     "rollup": "^4.12.1",
     "yaml": "^2.4.1"
+  },
+  "peerDependencies": {
+    "pm2": "^5.0.0"
   },
   "keywords": [],
   "license": "MIT"

@@ -4,11 +4,6 @@ import { S7Connector } from './IO_driver.js';
 import { fetch_config, fetch_template } from './config.js';
 import { send_json } from './json_forward.js';
 
-let v = true;
-function log(msg) {
-    if (v) console.log(msg);
-}
-
 process.stdin.setEncoding('utf-8');
 // process.stdin.setRawMode(true);
 // 监听键盘事件
@@ -25,6 +20,17 @@ const template_path = posix.join(work_path, "json.template");
 const { forward, connections, tags } = await fetch_config(config_path);
 const template = await fetch_template(template_path);
 
+export const context = {
+    module_path,
+    work_path,
+    // version: pkg.version,
+    silent: true,
+};
+
+function log(msg) {
+    context.silent || console.log(msg);
+}
+
 function on_values_ready(conn, values) {
     conn.devices.forEach(device => {
         device.PVs.forEach(PV => {
@@ -36,9 +42,9 @@ function on_values_ready(conn, values) {
                 if (PV.value != value) PV.changed = true;
             }
             PV.value = value;
-            // const comment = `${device.comment}.${PV.comment}`;
-            // const tag = `${device.name}.${PV.name}: ${PV.value}`.padEnd(50, ' ').slice(0, 50);
-            // log(`${tag} ${comment}`);
+            const comment = `${device.comment}.${PV.comment}`;
+            const tag = `${device.name}.${PV.name}: ${PV.value}`.padEnd(50, ' ').slice(0, 50);
+            log(`${tag} ${comment}`);
         });
     });
 }

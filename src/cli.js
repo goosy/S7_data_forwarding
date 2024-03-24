@@ -2,6 +2,7 @@ import { exec } from 'node:child_process';
 import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from "node:url";
 import pkg from '../package.json' assert { type: 'json' };
+import { start_http_server } from './http_server.js';
 import mri from 'mri';
 
 const argv = mri(process.argv.slice(2), {
@@ -24,12 +25,14 @@ function show_help() {
 s7data [subcommand] [path] [options]
 
 subcommand 子命令:
+  help                       打印本帮助
   start                      以当前目录下的配置文件运行数据采集转发，这是默认子命令
   stop                       结束当前目录配置文件所在的数据采集转发
   list                       显示有多少个pm2托管的进程，包括数据采集转发实例
+  debug                      以当前目录下的配置文件运行数据采集转发，但不压入后台，用于调试
+  serve                      启动一个临时的 http server 用来测试本地转发
   log                        显示日志
   flush                      清空log
-  help                       打印本帮助
 
 path 参数:  指示配置文件所在的目录，默认为 "." 即省略时为当前目录
 
@@ -66,6 +69,11 @@ if (argv.version) {
         }
         console.log(stdout);
     });
+} else if (cmd === 'debug') {
+    const { context } = await import('./main.js');
+    context.silent = argv.silent ?? false;
+} else if (cmd === 'serve') {
+    start_http_server(argv.port);
 } else if (cmd === 'log') {
     exec(`pm2 log`);
 } else if (cmd === 'flush') {
