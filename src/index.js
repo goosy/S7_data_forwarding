@@ -54,4 +54,7 @@ connections.forEach(conn => {
     connector.on('values_ready', (values) => on_values_ready(conn, values));
 })
 
-send_json(forward, tags, template);
+setTimeout(
+    () => send_json(forward, tags, template),
+    2000 // send after 2 seconds to ensure the data is valid
+);

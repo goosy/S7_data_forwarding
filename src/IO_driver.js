@@ -6,32 +6,35 @@ export class S7Connector extends EventEmitter {
     conn;
     tags = {};
     tag_addr_map;
-    doneReading = false;
-    doneWriting = false;
+    connfailed = true;
 
     valuesReady = (anythingBad, values) => {
         if (anythingBad) { console.log("SOMETHING WENT WRONG READING VALUES!!!!"); }
         this.tags = values;
-        this.doneReading = true;
+        this.connfailed = false;
         this.emit('values_ready', values);
     }
     valuesWritten = (anythingBad) => {
         if (anythingBad) { console.log("SOMETHING WENT WRONG WRITING VALUES!!!!"); }
         console.log("Done writing.");
-        this.doneWriting = true;
+        this.connfailed = false;
         this.emit('values_written');
     }
 
     connected = () => {
+        console.info(`connected to S7 PLC ${this.name}!`);
         const conn = this.conn;
         conn.setTranslationCB(tag => this.tag_addr_map[tag]);
         conn.addItems(Object.keys(this.tag_addr_map));
         setInterval(() => {
-            this.doneReading = false;
-            this.doneWriting = false;
             conn.readAllItems(this.valuesReady);
         }, 500);
     }
+    on_error(error) {
+        if (!this.connfailed) console.error(`S7 connection error: ${error ?? "unknown error"}`);
+        this.connfailed = true;
+        this.emit("connfailed");
+    };
 
     constructor({ name, host, tag_addr_map }) {
         super();
@@ -43,7 +46,7 @@ export class S7Connector extends EventEmitter {
         this.conn.initiateConnection(host, err => {
             if (typeof (err) !== "undefined") {
                 // TODO: make it retry later
-                console.log(err);
+                this.error(err);
                 process.exit();
             }
             this.connected();

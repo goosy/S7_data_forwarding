@@ -32,6 +32,7 @@ export async function fetch_config(config_path) {
             const tag_name = device.connection + '_' + device.name + '_' + PV.name;
             PV.tag_name = tag_name;
             PV.device = device;
+            PV.forward ??= forward.mode;
             tags_dict.add(PV);
             conn.tag_addr_map[tag_name] = PV.address;
         })

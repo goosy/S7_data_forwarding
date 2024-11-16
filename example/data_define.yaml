@@ -22,4 +22,5 @@ devices:
     - comment: 液位
       name: YW
       type: REAL
-      address: DB302,R48
+      address: DB302,
+      forward: complete
