@@ -1,7 +1,7 @@
 import { convert } from 'gooconverter';
 
 export function send_json(forward, tags, template) {
-    tags.forEach(PV => PV.changed = true);
+    for (const PV of tags) PV.changed = true;
     function send() {
         const PVs = tags.filter(PV => PV.changed || PV.forward === 'complete');
         const timestamp = new Date().toISOString();
@@ -18,7 +18,7 @@ export function send_json(forward, tags, template) {
         ).then(json => {
             if (json.success === true) {
                 console.log("send ok");
-                PVs.forEach(PV => PV.changed = false);
+                for (const PV of PVs) PV.changed = false;
             }
         }).catch(err => {
             console.log(err);

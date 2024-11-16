@@ -32,27 +32,28 @@ function log(msg) {
 }
 
 function on_values_ready(conn, values) {
-    conn.devices.forEach(device => {
-        device.PVs.forEach(PV => {
+    for (const device of conn.devices) {
+        for (const PV of device.PVs) {
             const value = values[PV.tag_name];
             if (PV.type === 'REAL') {
                 const diff = PV.value - value;
                 if (diff > 0.0001 || diff < -0.0001) PV.changed = true;
             } else {
-                if (PV.value != value) PV.changed = true;
+                if (PV.value !== value) PV.changed = true;
             }
             PV.value = value;
             const comment = `${device.comment}.${PV.comment}`;
             const tag = `${device.name}.${PV.name}: ${PV.value}`.padEnd(50, ' ').slice(0, 50);
             log(`${tag} ${comment}`);
-        });
-    });
+        }
+    }
 }
 
-connections.forEach(conn => {
+for (const conn of connections) {
     const connector = new S7Connector(conn);
     connector.on('values_ready', (values) => on_values_ready(conn, values));
-})
+}
+
 
 setTimeout(
     () => send_json(forward, tags, template),

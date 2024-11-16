@@ -18,20 +18,19 @@
     "s7data": "./cli.js"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-commonjs": "^28.0.1",
     "@rollup/plugin-json": "^6.1.0",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "eslint": "^8.57.0",
-    "gooconverter": "^1.0.2",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "gooconverter": "^1.0.3",
     "mri": "^1.2.0",
     "nodes7": "^0.3.18",
-    "rollup": "^4.12.1",
-    "yaml": "^2.4.1"
+    "rollup": "~4.26.0",
+    "yaml": "^2.6.0"
   },
   "peerDependencies": {
     "pm2": "^5.0.0"
   },
   "keywords": [],
   "license": "MIT",
-  "packageManager": "pnpm@9.6.0+sha512.38dc6fba8dba35b39340b9700112c2fe1e12f10b17134715a4aa98ccf7bb035e76fd981cf0bb384dfa98f8d6af5481c2bef2f4266a24bfa20c34eb7147ce0b5e"
+  "packageManager": "pnpm@9.12.3+sha512.cce0f9de9c5a7c95bef944169cc5dfe8741abfb145078c0d508b868056848a87c81e626246cb60967cbd7fd29a6c062ef73ff840d96b3c86c40ac92cf4a813ee"
 }

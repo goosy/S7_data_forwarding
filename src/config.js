@@ -24,19 +24,19 @@ export async function fetch_config(config_path) {
 
     const tags_dict = new PV_dict();
     const devices = config.devices;
-    devices.forEach(device => {
+    for(const device of devices) {
         const conn = connections.find(conn => conn.name === device.connection);
         if (!conn) throw new Error(`connection ${device.connection} isn't defined`);
         conn.devices.push(device);
-        device.PVs.forEach(PV => {
-            const tag_name = device.connection + '_' + device.name + '_' + PV.name;
+        for (const PV of device.PVs) {
+            const tag_name = `${device.connection}_${device.name}_${PV.name}`;
             PV.tag_name = tag_name;
             PV.device = device;
             PV.forward ??= forward.mode;
             tags_dict.add(PV);
             conn.tag_addr_map[tag_name] = PV.address;
-        })
-    })
+        }
+    }
     const tags = [...tags_dict.values()];
     return { forward, connections, tags };
 }

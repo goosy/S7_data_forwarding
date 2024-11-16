@@ -1,6 +1,6 @@
-import { createServer } from 'http';
+import { createServer } from 'node:http';
 
-const onRequest = function (request, response) {
+const onRequest = (request, response) => {
     if (request.method === 'POST') {
         let body = '';
 
@@ -17,9 +17,8 @@ const onRequest = function (request, response) {
     }
 }
 
-export function start_http_server(port) {
+export function start_http_server(port = 18080) {
     const server = createServer(onRequest);
-    port ??= 18080;
     server.listen(port, '0.0.0.0');
     console.log(`server started on localhost:${port}`);
 }
